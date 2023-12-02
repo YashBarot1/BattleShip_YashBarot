@@ -8,7 +8,6 @@ int main() {
 	std::cout << A.getIndex() << std::endl; 
 
 	//testing if random board generation works, it does (ran it 5 times and had 5 diff and valid boards) 
-	Board board1; 
-	board1.reset(); 
+	Board board1;  
 	std::cout << board1 << std::endl; 
 }

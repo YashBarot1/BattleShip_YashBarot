@@ -6,9 +6,10 @@
 Board::Board() {
 	// Initialize the random seed
 	std::srand((std::time(0)));
-
 	// Initialize the player's board
 	reset();
+	// Initialize enemy's board
+	
 }
 
 void Board::placeShip(int shipSize, playerPiece shipType) {
@@ -34,6 +35,7 @@ void Board::reset() {
 	// Erasing all the pieces
 	for (int i = 0; i < 400; ++i) {
 		playerBoard[i] = playerPiece::EMPTY;
+		enemyBoard[i] = enemyPiece::EMPTY; 
 	}
 
 	/*
@@ -47,6 +49,7 @@ void Board::reset() {
 	placeShip(5, playerPiece::AIRCRAFT);
 	placeShip(7, playerPiece::SUBMARINE);
 	placeShip(10, playerPiece::BATTLESHIP);
+
 
 }
 
@@ -72,6 +75,17 @@ void Board::makeMove(move move, bool isPlayer) {
 	}
 	else {
 		//here I want to implement the enemy's move but I'm not sure about my approach for it
+		//figure it out, had to add "wreck" for a hit in the playerpiece class
+
+		//if its a hit, you have a wreck 
+		if (playerBoard[index] != playerPiece::EMPTY) {
+			std::cout << "HIT!" << std::endl;
+			playerBoard[index] = playerPiece::WRECK;
+		}
+		// if miss then nothing changes
+		else {
+			std::cout << "MISS!" << std::endl;
+		}
 	}
 }
 
@@ -102,25 +116,42 @@ std::ostream& operator<<(std::ostream& os, const Board& board) {
 		*/
 		switch (board.playerBoard[i]) {
 		case playerPiece::AIRCRAFT:
-			os << "A";
+			os << 'A';
 			break;
 		case playerPiece::BATTLESHIP:
-			os << "B";
+			os << 'B';
 			break;
 		case playerPiece::CRUISER:
-			os << "C";
+			os << 'C';
 			break;
 		case playerPiece::PATROL:
-			os << "P";
+			os << 'P';
 			break; 
 		case playerPiece::SUBMARINE:
-				os << "S";
+				os << 'S';
 				break;	
 		default :
 			os << ' '; //empty if the spot is empty
 		}
-		
+
+		if (i % 20 == 0 && i != 0) { os << "  +   ";  }
+
+		switch (board.enemyBoard[i]) {
+		case enemyPiece::HIT:
+			os << 'H';
+			break;
+		case enemyPiece::MISS:
+			os << 'M';
+			break;
+		case enemyPiece::EMPTY:
+			os << 'E'; 
+			break;
+		default:
+			os << ' ';
+		}
+
 		if (i % 20 == 0 && i != 0 ) { os  << std::endl; } //new line for next row
 	}
+
 	return os;
 }
