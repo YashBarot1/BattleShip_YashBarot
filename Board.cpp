@@ -9,20 +9,24 @@ Board::Board() {
 
 	// Initialize the player's board
 	reset();
+	// Initialize enemy's board
+
 }
 
 void Board::placeShip(int shipSize, playerPiece shipType) {
 	if (shipSize > 10) {
 		return;
 	}
-	int start = (std::rand() % 379) + 20; 
+	int start = (std::rand() % 88) + 10;
 	/*
-	* This creates a problem, start can be at an index where shipsize is big enough to push part 
-	* of the ship in the next row (cant break a ship into two ) 
+	* This creates a problem, start can be at an index where shipsize is big enough to push part
+	* of the ship in the next row (cant break a ship into two )
 	*/
 
-	if ((int)(start / 20) != (int)(start + shipSize) / 20) //dealing with the problem above
-	{ start -= shipSize;  } 
+	if (start%10 == 9 ||  (int)(start / 10) != (int)(start + shipSize) / 10) //dealing with the problem above
+	{
+		start -= shipSize;
+	}
 
 	for (int i = start; i < start + shipSize; ++i) {
 		playerBoard[i] = shipType;
@@ -32,8 +36,9 @@ void Board::placeShip(int shipSize, playerPiece shipType) {
 
 void Board::reset() {
 	// Erasing all the pieces
-	for (int i = 0; i < 400; ++i) {
+	for (int i = 0; i < 100; ++i) {
 		playerBoard[i] = playerPiece::EMPTY;
+		enemyBoard[i] = enemyPiece::EMPTY;
 	}
 
 	/*
@@ -42,11 +47,11 @@ void Board::reset() {
 	within the player pieces' array
 	*/
 
-	placeShip(2, playerPiece::PATROL);
-	placeShip(3, playerPiece::CRUISER);
-	placeShip(5, playerPiece::AIRCRAFT);
-	placeShip(7, playerPiece::SUBMARINE);
-	placeShip(10, playerPiece::BATTLESHIP);
+	placeShip(1, playerPiece::PATROL);
+	placeShip(2, playerPiece::CRUISER);
+	placeShip(3, playerPiece::AIRCRAFT);
+	placeShip(5, playerPiece::SUBMARINE);
+	placeShip(7, playerPiece::BATTLESHIP);
 
 }
 
@@ -58,7 +63,7 @@ void Board::makeMove(move move, bool isPlayer) {
 	* declarig a bool in them in a logical manner. There's proabably another way to do so
 	*/
 	if (isPlayer) {
-		
+
 		//  If the square is not empty, it as HIT, otherwise it as MISS
 
 		if (enemyBoard[index] != enemyPiece::EMPTY) {
@@ -79,7 +84,7 @@ bool Board::isLegal(move move) const {
 	int index = move.getIndex();
 
 	// Checking if the move is within the bounds of the board
-	if (index < 0 || index >= 400) {
+	if (index < 0 || index >= 100) {
 		std::cout << "Move is out of bounds." << std::endl;
 		return false;
 	}
@@ -95,9 +100,9 @@ bool Board::isLegal(move move) const {
 
 //overloading << , this one was pretty simple unless of course if I've f'ed it up
 std::ostream& operator<<(std::ostream& os, const Board& board) {
-	for (int i = 0; i < 400; ++i) {
+	for (int i = 1; i <= 100; ++i) {
 		/*
-		* os << static_cast<char>(static_cast<int>('A') + (i % 20)) << (i / 20) << ": ";
+		* os << static_cast<char>(static_cast<int>('A') + (i % 10)) << (i / 10) << ": ";
 		* this line prints indexes against the cell, here for testing purposes
 		*/
 		switch (board.playerBoard[i]) {
@@ -111,16 +116,35 @@ std::ostream& operator<<(std::ostream& os, const Board& board) {
 			os << "C";
 			break;
 		case playerPiece::PATROL:
-			os << "P";
-			break; 
+			os << 'P';
+			break;
 		case playerPiece::SUBMARINE:
-				os << "S";
-				break;	
-		default :
-			os << ' '; //empty if the spot is empty
+			os << 'S';
+			break;
+		default:
+			os << '#'; //empty if the spot is empty
 		}
-		
-		if (i % 20 == 0 && i != 0 ) { os  << std::endl; } //new line for next row
+
+		if (i % 10 == 0 && i != 0) {
+			os << "    ";
+			for (int j = (int)i % 10; j < 10; ++j)
+			{
+				switch (board.enemyBoard[i]) {
+				case enemyPiece::HIT:
+					os << 'H';
+					break;
+				case enemyPiece::MISS:
+					os << 'M';
+					break;
+				case enemyPiece::EMPTY:
+					os << 'E';
+					break;
+				default:
+					os << ' ';
+				}
+			}
+			os << '\n'; //new line for next row
+		}
 	}
 	return os;
 }
