@@ -9,7 +9,10 @@ Board::Board() {
 	// Initialize the player's board
 	reset();
 	// Initialize enemy's board
+<<<<<<< Updated upstream
 	
+=======
+>>>>>>> Stashed changes
 }
 
 void Board::placeShip(int shipSize, playerPiece shipType) {
@@ -74,6 +77,7 @@ void Board::makeMove(move move, bool isPlayer) {
 		}
 	}
 	else {
+<<<<<<< Updated upstream
 		//here I want to implement the enemy's move but I'm not sure about my approach for it
 		//figure it out, had to add "wreck" for a hit in the playerpiece class
 
@@ -85,6 +89,14 @@ void Board::makeMove(move move, bool isPlayer) {
 		// if miss then nothing changes
 		else {
 			std::cout << "MISS!" << std::endl;
+=======
+		if (playerBoard[index] != playerPiece::EMPTY) {
+			std::cout << "HIT!" << std::endl; 
+			playerBoard[index] = playerPiece::WRECK; 
+		}
+		else {
+			std::cout << "MISS" << std::endl; 
+>>>>>>> Stashed changes
 		}
 	}
 }
@@ -128,10 +140,20 @@ std::ostream& operator<<(std::ostream& os, const Board& board) {
 			os << 'P';
 			break; 
 		case playerPiece::SUBMARINE:
+<<<<<<< Updated upstream
 				os << 'S';
 				break;	
 		default :
 			os << ' '; //empty if the spot is empty
+=======
+			os << 'S';
+			break;
+		case playerPiece::WRECK:
+			os << 'W'; 
+			break;
+		default:
+			os << '#'; //empty if the spot is empty
+>>>>>>> Stashed changes
 		}
 
 		if (i % 20 == 0 && i != 0) { os << "  +   ";  }
