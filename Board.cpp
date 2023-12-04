@@ -80,7 +80,7 @@ void Board::makeMove(move move, bool isPlayer) {
 	}
 }
 
-bool Board::isLegal(move move) const {
+bool Board::isLegal(move move)  {
 	int index = move.getIndex();
 
 	// Checking if the move is within the bounds of the board

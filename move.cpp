@@ -8,7 +8,7 @@ int move::getIndex() const {
 
     return (row * 10 + columnIndex) - 10 ;
 
-    /*row * 20 + columnIndex gives me 400 unique indexes from 20 to 419,
-    *  (row*20 + columnIndex) - 20 gives me 400 unique indexes from 0 to 400
+    /*row * 10 + columnIndex gives me 100 unique indexes from 10 to 119,
+    *  (row*10 + columnIndex) - 10 gives me 400 unique indexes from 0 to 99
     */
 }

@@ -9,15 +9,15 @@
 
 class Board {
 private:
-    playerPiece playerBoard[400];
-    enemyPiece enemyBoard[400];
+    playerPiece playerBoard[100];
+    enemyPiece enemyBoard[100];
 
 public:
     Board();
     void placeShip(int shipSize, playerPiece shipType);
     void reset();
     void makeMove(move move, bool isPlayer);
-    bool isLegal(move move) const;
+    bool isLegal(move move) ;
     friend std::ostream& operator<<(std::ostream& os, const Board& board);
 };
 
