@@ -141,12 +141,10 @@
   <ItemGroup>
     <ClInclude Include="board.hpp" />
     <ClInclude Include="ComputerPlayer.hpp" />
-    <ClInclude Include="enemyPiece.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="HumanPlayer.hpp" />
     <ClInclude Include="move.hpp" />
     <ClInclude Include="Player.hpp" />
-    <ClInclude Include="playerPiece.hpp" />
     <ClInclude Include="RandomPlayer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

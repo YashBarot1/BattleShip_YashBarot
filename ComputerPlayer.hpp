@@ -7,11 +7,11 @@
 class ComputerPlayer : public Player {
 private:
     static int playerCount;
-    bool previousMoves[10][10]; // Keep track of previous moves to avoid repetition
+    bool previousMoves[10][10]; // Keeping track of previous moves to avoid repetition
 
 public:
     ComputerPlayer();
-     move getMove() override;
+    move getMove() override;
 
 private:
     move generateRandomMove() const;

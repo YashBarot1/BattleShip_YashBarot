@@ -10,7 +10,7 @@ public:
     move getMove();
     bool isValidMoveInput(const std::string& input) const;
     move parseMove(const std::string& input) const;
-    Board& getBoard();
+    
 };
 
 #endif // HUMANPLAYER_H

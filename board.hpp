@@ -2,19 +2,25 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "enemyPiece.hpp"
-#include "playerPiece.hpp"
+
 #include "move.hpp"
 #include <iostream>
+
+
+enum class playerPiece { AIRCRAFT, BATTLESHIP, CRUISER, SUBMARINE, PATROL, EMPTY, WRECK };
+
+enum class enemyPiece { HIT, MISS, EMPTY };
+
 
 class Board {
 private:
     playerPiece playerBoard[100];
     enemyPiece enemyBoard[100];
 
+
 public:
     Board();
-    void placeShip(int shipSize, playerPiece shipType);
+    void placeShip( playerPiece shipType);
     void reset();
     void makeMove(move move, bool isPlayer);
     bool isBoardEmpty();

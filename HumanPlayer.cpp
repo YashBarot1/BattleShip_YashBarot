@@ -3,7 +3,9 @@
 #include <iostream>
 
 
-HumanPlayer::HumanPlayer(const std::string& playerName) : Player(playerName) {}
+HumanPlayer::HumanPlayer(const std::string& playerName) : Player(playerName) {
+    Board(); 
+}
 
 move HumanPlayer::getMove() {
     std::string input;
@@ -28,13 +30,13 @@ bool HumanPlayer::isValidMoveInput(const std::string& input) const {
 
     // Check if the first character is a digit representing the row
     if (!std::isdigit(input[0])) {
-        std::cout << "Invalid input. The first character should be a digit representing the row." << std::endl;
+        std::cout << "Invalid input. The first character should be an alphabet." << std::endl;
         return false;
     }
 
     // Check if the second character is an uppercase letter representing the column
-    if (!std::isupper(input[1])) {
-        std::cout << "Invalid input. The second character should be an uppercase letter representing the column." << std::endl;
+    if (!std::isalpha(input[1])) {
+        std::cout << "Invalid input. The second character should be an alphabet" << std::endl;
         return false;
     }
 

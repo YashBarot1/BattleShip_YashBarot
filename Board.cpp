@@ -7,30 +7,19 @@ Board::Board() {
 	// Initialize the random seed
 	std::srand((std::time(0)));
 
-	// Initialize the player's board
+	// Initialize the player and enemy's board
 	reset();
-	// Initialize enemy's board
-
+	
+	
 }
 
-void Board::placeShip(int shipSize, playerPiece shipType) {
-	if (shipSize > 10) {
-		return;
-	}
+void Board::placeShip( playerPiece shipType) {
+	
 	int start = (std::rand() % 88) + 10;
-	/*
-	* This creates a problem, start can be at an index where shipsize is big enough to push part
-	* of the ship in the next row (cant break a ship into two )
-	*/
-
-	if (start%10 == 9 ||  (int)(start / 10) != (int)(start + shipSize) / 10) //dealing with the problem above
-	{
-		start -= shipSize;
-	}
-
-	for (int i = start; i < start + shipSize; ++i) {
-		playerBoard[i] = shipType;
-	}
+	
+	
+		playerBoard[start] = shipType;
+	
 
 }
 
@@ -47,21 +36,18 @@ void Board::reset() {
 	within the player pieces' array
 	*/
 
-	placeShip(1, playerPiece::PATROL);
-	placeShip(2, playerPiece::CRUISER);
-	placeShip(3, playerPiece::AIRCRAFT);
-	placeShip(5, playerPiece::SUBMARINE);
-	placeShip(7, playerPiece::BATTLESHIP);
+	placeShip( playerPiece::PATROL);
+	placeShip( playerPiece::CRUISER);
+	placeShip( playerPiece::AIRCRAFT);
+	placeShip( playerPiece::SUBMARINE);
+	placeShip( playerPiece::BATTLESHIP);
 
 }
 
 
 void Board::makeMove(move move, bool isPlayer) {
 	int index = move.getIndex();
-	/*here my isPlayer determines if we are examining a move from the player or the enemy,
-	*the problem I have is that both playerPiece and enemyPiece are enum classes, restricing me from
-	* declarig a bool in them in a logical manner. There's proabably another way to do so
-	*/
+	// here my isPlayer determines if we are examining a move from the player or the enemy
 	if (isPlayer) {
 
 		//  If the square is not empty, it as HIT, otherwise it as MISS
@@ -76,17 +62,33 @@ void Board::makeMove(move move, bool isPlayer) {
 		}
 	}
 	else {
-		//here I want to implement the enemy's move but I'm not sure about my approach for it
+		//when the enemy makes a move, if a square wasn't empty, it is now wrecked (literally)
+		if (playerBoard[index] != playerPiece::EMPTY) {
+			std::cout << "HIT!" << std::endl;
+			playerBoard[index] = playerPiece::WRECK;
+		}
+		else {
+			std::cout << "MISS!" << std::endl;
+			
+		}
 	}
 }
 
 bool Board::isBoardEmpty() {
-	
-	for (int i = 0; i < 100; ++i) {
-		if (playerBoard[i] != playerPiece::EMPTY && enemyBoard[i] != enemyPiece::EMPTY) {
-			return false; 
-
+	int i = 0; 
+	int numberofhits=0;
+		while(i<100) {
+			if (enemyBoard[i] == enemyPiece::HIT) {
+				
+				++numberofhits;
 		}
+			if (numberofhits == 5) {
+				return false; 
+			}
+		if (playerBoard[i] != playerPiece::EMPTY || playerBoard[i] == playerPiece::WRECK) {
+			return false;
+		}
+		++i; 
 	}
 	return true;
 }
@@ -104,7 +106,7 @@ bool Board::isLegal(move move)  const {
 		std::cout << "Move has already been made." << std::endl;
 		return false;
 	}
-	//if neither of the uppercases occur, then it is a valid move
+	//if neither of the upper cases occur, then it is a valid move
 	return true;
 }
 
@@ -137,7 +139,7 @@ std::ostream& operator<<(std::ostream& os, const Board& board) {
 
 		if (i % 10 == 0 && i != 0) {
 			os << "    ";
-			for (int j = (int)i % 10; j < 10; ++j)
+			for (int j = (int)i % 10; j <= 10; ++j)
 			{
 				switch (board.enemyBoard[i]) {
 				case enemyPiece::HIT:

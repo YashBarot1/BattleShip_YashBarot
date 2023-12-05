@@ -3,14 +3,14 @@
 
 move RandomPlayer::getMove() {
     // Generate legal moves if the vector is empty
-    if (legalRandomMoves.empty()) {
+    if (legalMoves.empty()) {
         generateLegalMoves();
     }
 
     // Select a random move from the legal moves
-    std::uniform_int_distribution<int> moveDistribution(0, static_cast<int>(legalRandomMoves.size()) - 1);
+    std::uniform_int_distribution<int> moveDistribution(0, static_cast<int>(legalMoves.size()) - 1);
     int randomIndex = moveDistribution(mt);
-    int selectedMove = legalRandomMoves[randomIndex];
+    int selectedMove = legalMoves[randomIndex];
 
     // Convert the selected move to row and column
     move result;
@@ -18,7 +18,7 @@ move RandomPlayer::getMove() {
     result.column = static_cast<char>('A' + selectedMove % 10);
 
     // Remove the selected move from the legal moves
-    legalRandomMoves.erase(legalRandomMoves.begin() + randomIndex);
+    legalMoves.erase(legalMoves.begin() + randomIndex);
 
     return result;
 }
@@ -33,8 +33,8 @@ bool RandomPlayer::isLegal(move move) {
 void RandomPlayer::generateLegalMoves() {
     // Generate a list of legal moves
     for (int i = 0; i < 100; ++i) {
-        if (isLegal(move{ i / 10, static_cast<char>('A' + i % 10) })) {
-            legalRandomMoves.push_back(i);
+        if (isLegal(move{ (int)i / 10, static_cast<char>('A' + (int) i % 10) })) {
+            legalMoves.push_back(i);
         }
     }
 }

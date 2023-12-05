@@ -1,56 +1,56 @@
 // Game.cpp
 #include "Game.hpp"
-#include "RandomPlayer.hpp"
 #include "HumanPlayer.hpp"
+#include "RandomPlayer.hpp"
 #include <iostream>
 
-void Game::selectPlayers() {
-    char player1Type, player2Type;
+void Game::play() {
 
-        std::string playerName;
-        std::cout << "Enter player 1's name: ";
-        std::cin >> playerName;
-        player1 = std::make_unique<HumanPlayer>(playerName);
-        player2 = std::make_unique<RandomPlayer>();
-  
-    
-}
+	// Play the game
+	 do {
+		std::cout << player1->getBoard() << std::endl;
+		std::cout << player2->getBoard() << std::endl;
 
-Player* Game::nextPlayer() const {
-    static bool player1Turn = true;
-    return player1Turn ? player1.get() : player2.get();
+		Player* currentPlayer = (rand() % 2 == 0) ? player1.get() : player2.get(); // Randomly select the current player
+
+		std::cout << "It's " << currentPlayer->getName() << "'s turn." << std::endl;
+		move move = currentPlayer->getMove();
+
+		Player* opponent = (currentPlayer == player1.get()) ? player2.get() : player1.get();
+		opponent->getBoard().makeMove(move, false);
+	}while (isRunning());
+
+	// Announce the winner
+	announceWinner();
 }
 
 bool Game::isRunning() const {
-     return !player1->getBoard().isBoardEmpty() && !player2->getBoard().isBoardEmpty();
-}
-
-void Game::play() {
-    do {
-        std::cout << player1->getName() << std::endl;
-        std::cout << player2->getName() << std::endl;
-
-        Player* currentPlayer = nextPlayer();
-        std::cout << "It's " << currentPlayer->getName() << "'s turn." << std::endl;
-
-        move move = currentPlayer->getMove();
-        if (currentPlayer == player1.get()) {
-            player2->getBoard().makeMove(move, false);
-        }
-        else {
-            player1->getBoard().makeMove(move, false);
-        }
-    } while (isRunning()); 
+	return !player1->getBoard().isBoardEmpty() && !player2->getBoard().isBoardEmpty();
 }
 
 void Game::announceWinner() {
-    if (player1->getBoard().isBoardEmpty() && player2->getBoard().isBoardEmpty()) {
-        std::cout << "It's a tie!" << std::endl;
-    }
-    else if (player1->getBoard().isBoardEmpty()) {
-        std::cout << player2->getName() << " is the winner!" << std::endl;
-    }
-    else {
-        std::cout << player1->getName() << " is the winner!" << std::endl;
-    }
+	std::cout << "Game over!" << std::endl;
+
+	if (player1->getBoard().isBoardEmpty() && player2->getBoard().isBoardEmpty()) {
+		std::cout << "It's a tie!" << std::endl;
+	}
+	else if (player1->getBoard().isBoardEmpty()) {
+		std::cout << player2->getName() << " is the winner!" << std::endl;
+	}
+	else {
+		std::cout << player1->getName() << " is the winner!" << std::endl;
+	}
+}
+
+void Game::selectPlayers() {
+	// Prompt the user for player types and names
+	std::cout << "Enter details for Player 1:\n";
+	std::string player1Name;
+	std::cout << "Enter player's name: ";
+	std::cin >> player1Name;
+	player1 = std::make_unique<HumanPlayer>(player1Name); // Assuming Player has a constructor that takes the name
+	player1->getBoard().reset();
+	player2 = std::make_unique<RandomPlayer>();
+	player2->getBoard().reset();
+
 }
