@@ -80,7 +80,17 @@ void Board::makeMove(move move, bool isPlayer) {
 	}
 }
 
-bool Board::isLegal(move move)  {
+bool Board::isBoardEmpty() {
+	
+	for (int i = 0; i < 100; ++i) {
+		if (playerBoard[i] != playerPiece::EMPTY && enemyBoard[i] != enemyPiece::EMPTY) {
+			return false; 
+
+		}
+	}
+	return true;
+}
+bool Board::isLegal(move move)  const {
 	int index = move.getIndex();
 
 	// Checking if the move is within the bounds of the board

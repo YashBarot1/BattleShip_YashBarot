@@ -131,10 +131,12 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="ComputerPlayer.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="HumanPlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="move.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RandomPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.hpp" />

@@ -7,7 +7,7 @@
 class HumanPlayer : public Player {
 public:
     HumanPlayer(const std::string& playerName);
-    move getMove() override;
+    move getMove();
     bool isValidMoveInput(const std::string& input) const;
     move parseMove(const std::string& input) const;
     Board& getBoard();

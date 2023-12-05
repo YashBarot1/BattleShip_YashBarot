@@ -13,10 +13,10 @@ private:
 public:
     Player(const std::string& playerName);
     const std::string& getName() const;
-    virtual move getMove() = 0;
+    virtual move getMove();
     Board& getBoard();
     virtual ~Player() = default;
-   
+    bool isValidMove(const move& move) const;
     
 };
 

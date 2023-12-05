@@ -17,7 +17,8 @@ public:
     void placeShip(int shipSize, playerPiece shipType);
     void reset();
     void makeMove(move move, bool isPlayer);
-    bool isLegal(move move) ;
+    bool isBoardEmpty();
+    bool isLegal(move move) const ;
     friend std::ostream& operator<<(std::ostream& os, const Board& board);
 };
 

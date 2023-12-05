@@ -1,22 +1,21 @@
-// Player.h
-#ifndef PLAYER_H
-#define PLAYER_H
+// Game.h
+#ifndef GAME_H
+#define GAME_H
 
-#include "Board.hpp"
-#include <string>
+#include "Player.hpp"
+#include <memory>
 
-class Player {
+class Game {
 private:
-    std::string name;
-    Board board;
+    std::unique_ptr<Player> player1;
+    std::unique_ptr<Player> player2;
 
 public:
-    Player(const std::string& playerName);
-    const std::string& getName() const;
-    virtual move getMove() = 0;
-    Board& getBoard();
-    virtual ~Player() = default;
-    Board getBoard() const;
+    void selectPlayers();
+    Player* nextPlayer() const;
+    bool isRunning() const;
+    void play();
+    void announceWinner();
 };
 
-#endif // PLAYER_H
+#endif // GAME_H
