@@ -1,5 +1,8 @@
+//Yash Barot --> 0416846
+//Brooke Vrbanic --> 0410002
 #include<iostream>
 #include "Board.hpp"
+#include "Game.hpp"
 
 int main() {
 
@@ -11,4 +14,14 @@ int main() {
 	Board board1; 
 	board1.reset(); 
 	std::cout << board1 << std::endl; 
+
+// for the game cpp
+	Game game; //calls game object\
+	//calling member functions
+	game.selectPlayers();
+	game.play();
+	game.announceWinner();
+
+	return 0;
+
 }
